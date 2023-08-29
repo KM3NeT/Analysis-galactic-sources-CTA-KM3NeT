@@ -21,11 +21,11 @@ This option will be provided in the next version of the repository.
 ### Download
 First it is required to download the whole content of the repository, it can be done using `git`:
 ```sh
-git clone git@git.km3net.de:open-data/public-candidates/cta-and-km3net.git
+git clone git@github.com:KM3NeT/Analysis-galactic-sources-CTA-KM3NeT.git
 ```
 or
 ```sh
-git clone https://git.km3net.de/open-data/public-candidates/cta-and-km3net.git
+git clone https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT.git
 ```
 then
 ```sh
