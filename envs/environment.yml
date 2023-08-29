@@ -1,0 +1,21 @@
+name: km3net_cta_env
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - python=3.8
+  - cython
+  - gammapy=0.17
+  - pip
+  - pip:
+      - astropy>=4.0
+      - numpy==1.24.3
+      - pandas==1.3.5
+      - matplotlib==3.4.2
+      - regions>=0.4, <=0.5
+      - iminuit==1.5.4
+      - naima
+      - nbconvert
+      - ipython
+      - ipykernel
+      - tqdm

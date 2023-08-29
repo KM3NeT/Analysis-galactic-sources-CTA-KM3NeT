@@ -1,0 +1,22 @@
+# Configuration file to define user parameters for notebook execution
+# Other standard parameters not intended for change are loaded from src/analysis_standard_config.yml
+# Values from the standard parameter settings can be overwritten here
+
+execute: manual # set to 'automatic' for serial execution of notebooks, 'manual' to use only the first source under 'sources'
+sources: # Sources must be available as models, see first column in /data/models/sources_catalog.csv
+    - VelaX
+    - HESSJ1908
+    - Westerlund1
+    - RXJ1713
+km3net_datasets:
+    hours: 24 # for complete reproducing of analysis it should be set to 1
+io:
+    datafolder: ../data #can be relative path to this file or absolute path
+    km3net_pseudodata_extension: _10y
+    write_model_fits: true
+    write_model_plots: true
+    write_CTA_pseudodata: true
+    write_CTA_model_plots: true
+    write_KM3NeT_pseudodata: true
+    write_KM3NeT_plots: true
+    write_KM3NeT_IRF_plots: true

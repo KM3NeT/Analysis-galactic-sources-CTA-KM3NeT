@@ -1,0 +1,108 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "license": "https://spdx.org/licenses/BSD-3-Clause",
+    "codeRepository": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT",
+    "dateCreated": "2023-04-03",
+    "datePublished": "2023-08-29",
+    "dateModified": "2023-08-29",
+    "downloadUrl": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT",
+    "issueTracker": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT/issues",
+    "name": "Prospects for combined galactic source searches with CTA and KM3NeT",
+    "version": "1.0.0",
+    "description": "This repository contains the prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT/ARCA. It complements the publication \"Prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT\"",
+    "applicationCategory": "Astroparticle physics",
+    "releaseNotes": "First commit in line with paper publication.",
+    "developmentStatus": "active",
+    "readme": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT/README.md",
+    "softwareVersion": "1.0.0",
+    "keywords": [
+        "CTA",
+        "KM3NeT",
+        "neutrinos",
+        "gamma rays"
+    ],
+    "programmingLanguage": [
+        "Python 3"
+    ],
+    "operatingSystem": [
+        "Linux",
+        "Windows"
+    ],
+    "softwareRequirements": [
+        "Python 3.8",
+        "gammapy 0.17"
+    ],
+    "author": [
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0002-7378-4024",
+            "givenName": "Tim",
+            "familyName": "Unbehaun",
+            "email": "tim.unbehaun@fau.de",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "FAU Erlangen-Nürnberg"
+            }
+        },
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0002-9667-8654",
+            "givenName": "Lars",
+            "familyName": "Mohrmann",
+            "email": "lars.mohrmann@mpi-hd.mpg.de",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "Max-Planck-Institut für Kernphysik"
+            }
+        },
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0003-2772-1927",
+            "givenName": "Mikhail",
+            "familyName": "Smirnov",
+            "email": "gear8mike@gmail.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "FAU Erlangen-Nürnberg"
+            }
+        },
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0003-1233-7738",
+            "givenName": "Jutta",
+            "familyName": "Schnabel",
+            "email": "jutta.schnabel@fau.de",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "FAU Erlangen-Nürnberg"
+            }
+        }
+    ],
+    "contributor": [
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/ 0000-0001-7821-8673",
+            "givenName": "Tamás",
+            "familyName": "Gál",
+            "email": "tamas.gal@fau.de",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "FAU Erlangen-Nürnberg"
+            }
+        }
+    ],
+    "maintainer": [
+        {
+            "@type": "Person",
+            "@id": "http://openscience.km3net.de",
+            "givenName": "KM3NeT",
+            "familyName": "Open Science",
+            "email": "opendata@km3net.de",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "KM3NeT collaboration"
+            }
+        }
+    ]
+}

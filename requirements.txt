@@ -1,0 +1,11 @@
+gammapy==0.17
+astropy>=4.0
+matplotlib==3.4.2
+regions>0.4,<=0.5
+pandas==1.3.5
+iminuit==1.5.4
+naima
+ipython
+ipykernel
+tqdm
+nbconvert

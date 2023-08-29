@@ -1,0 +1,34 @@
+cta_datasets: # Parameters needed for the generation of the pseudo-CTA-datasets
+    livetime: 200 # in hours
+    offset: 1 # in degree
+    binwidth: 0.02
+    pointings: # pointing directions in degrees
+        - 0
+        - 90
+        - 180
+        - 270
+    emin: -1 # logarithmic, in TeV
+    emax: 2.1875 # bkg not properly defined above ~154 TeV
+    nebin: 52 # number of energy bins
+    frame: icrs
+km3net_datasets:
+    detector_position: # ARCA position
+        latitude: "36 degrees 16 minutes"
+        longitude: "16 degrees 06 minutes"
+        height: -3500
+    hours: 24 # timesteps, for hourly time bins change to 1 slower
+    zenithbinning: 13
+    emin: 1e2
+    emax: 1e6
+cta_only_sources:
+    modeltype: PD # InverseCompton (IC) and PionDecay (PD) possible
+io:
+    datafolder: ../data #can be relative path to this file or absolute path
+    km3net_pseudodata_extension: _10y
+    write_model_fits: true
+    write_model_plots: true
+    write_CTA_pseudodata: true
+    write_CTA_model_plots: true
+    write_KM3NeT_pseudodata: true
+    write_KM3NeT_plots: true
+    write_KM3NeT_IRF_plots: true
