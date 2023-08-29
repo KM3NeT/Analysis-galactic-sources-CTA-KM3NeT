@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blueviolet.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![DOI](https://zenodo.org/badge/684463999.svg)](https://zenodo.org/badge/latestdoi/684463999)
 
 
 # CTA and KM3NeT Common Source Search
