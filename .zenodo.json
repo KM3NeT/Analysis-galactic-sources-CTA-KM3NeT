@@ -1,0 +1,62 @@
+{
+    "language": "eng",
+    "access_right": "open",
+    "upload_type": "software",
+    "title": "Prospects for combined galactic source searches with CTA and KM3NeT",
+    "description": "This repository contains the prospects for combined analyses of hadronic emission from \u03b3-ray sources in the Milky Way with CTA and KM3NeT/ARCA. It complements the publication \"Prospects for combined analyses of hadronic emission from \u03b3-ray sources in the Milky Way with CTA and KM3NeT\"",
+    "version": "1.0.0",
+    "keywords": [
+        "CTA",
+        "KM3NeT",
+        "neutrinos",
+        "gamma rays"
+    ],
+    "notes": "Release Notes: First commit in line with paper publication.",
+    "publication_date": "2023-08-29",
+    "creators": [
+        {
+            "name": "Unbehaun, Tim",
+            "orcid": "0000-0002-7378-4024",
+            "affiliation": "FAU Erlangen-N\u00fcrnberg"
+        },
+        {
+            "name": "Mohrmann, Lars",
+            "orcid": "0000-0002-9667-8654",
+            "affiliation": "Max-Planck-Institut f\u00fcr Kernphysik"
+        },
+        {
+            "name": "Smirnov, Mikhail",
+            "orcid": "0000-0003-2772-1927",
+            "affiliation": "FAU Erlangen-N\u00fcrnberg"
+        },
+        {
+            "name": "Schnabel, Jutta",
+            "orcid": "0000-0003-1233-7738",
+            "affiliation": "FAU Erlangen-N\u00fcrnberg"
+        },
+        {
+            "name": "Open Science, KM3NeT",
+            "affiliation": "KM3NeT collaboration"
+        },
+        {
+            "name": "G\u00e1l, Tam\u00e1s",
+            "orcid": " 0000-0001-7821-8673",
+            "affiliation": "FAU Erlangen-N\u00fcrnberg"
+        }
+    ],
+    "related_identifiers": [
+        {
+            "scheme": "url",
+            "identifier": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT",
+            "relation": "isDerivedFrom",
+            "resource_type": "software"
+        },
+        {
+            "scheme": "url",
+            "identifier": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT/README.md",
+            "relation": "isDocumentedBy",
+            "resource_type": "publication-softwaredocumentation"
+        }
+    ],
+    "license": "BSD-3-Clause"
+}
