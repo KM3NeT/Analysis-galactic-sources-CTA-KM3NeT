@@ -1,0 +1,36 @@
+---
+version: 0.9.0
+inputs:
+  directories:
+    - data/models/
+    - data/cta/
+    - src/
+
+  files:
+    - Analysis/reana/flux_models.py
+    - Analysis/reana/create_cta_dataset.py
+
+  parameters:
+    flux: flux_models.py
+    main: create_cta_dataset.py
+    path: Analysis/reana/
+
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: analysis
+        environment: "gitlab-registry.in2p3.fr/escape2020/virtual-environment/docker-images/datalake-singleuser-combined_ana_km3net_cta:latest"
+        kubernetes_memory_limit: "4Gi"
+        commands:
+          # - mkdir "${plot}"
+          - cd "${path}" && python "${flux}"
+          - cd "${path}" && python "${main}"
+#           - cd reana_analysis && python plot_from_fits.py
+# --data "${data}"
+# --plot "${plot}"
+outputs:
+  directories:
+    - results/plots
+  files:
+    - results/CTA_VelaX_200h_p4.fits.gz
