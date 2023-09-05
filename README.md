@@ -80,3 +80,22 @@ And for `zsh` shell, you need to execute these lines first before installation o
 conda install -c conda-forge notebook
 conda install -c conda-forge nb_conda_kernels
 ```
+
+## Integration with REANA
+Analysis can be run in [REANA](https://docs.reana.io/), for this purpose it needs to install `reana-client` inside virtual environment:
+```sh
+# inside venv or conda env
+pip install reana-client
+```
+$\textcolor{red}{\text{Warning!}}$
+`reana-client` is currently not compatible with Windows even inside a conda environment.
+
+
+After installation of the client, it needs to set connection using a token. For convinience all REANA commands are specified in `run_reana.sh` script. Launch the script in terminal.
+```sh
+export REANA_SERVER_URL=https://reana.cern.ch
+export REANA_ACCESS_TOKEN=*YOUR_TOKEN*
+. run_reana.sh
+# get the results of analysis
+reana-client download
+```
