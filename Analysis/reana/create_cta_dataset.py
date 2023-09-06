@@ -42,16 +42,12 @@ sys.path.append(str(parpar_dir))
 from src import PionDecayKelner06, AnalysisConfig, SourceModel
 import src.plot_utils as plot_utils
 
-# from src import AnalysisConfig
-# from src import SourceModel
 
 plot_utils.mpl_settings()
 
 analysis_conf = AnalysisConfig()
 
-# irfs = load_cta_irfs(Path(parpar_dir / "data" / "cta" / "irf_file_new_CTA.fits"))
 irfs = load_cta_irfs(analysis_conf.get_file("cta/irfs/irf_file_new_CTA.fits"))
-# source_name = "VelaX"
 wobble_offset = 1 * u.deg
 livetime = 200 * u.h
 source_name = analysis_conf.get_source()

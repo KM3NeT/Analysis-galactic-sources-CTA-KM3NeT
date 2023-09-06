@@ -45,7 +45,7 @@ parpar_dir = par_dir.parent
 sys.path.append(str(par_dir))
 sys.path.append(str(parpar_dir))
 
-from src import PionDecayKelner06
+from src import PionDecayKelner06, AnalysisConfig
 
 # from src import read_analysis_config, get_source
 import src.plot_utils as plot_utils
@@ -55,10 +55,12 @@ output_path = Path(parpar_dir / output_folder)
 
 plot_utils.mpl_settings()
 
-# Westerlund1, HESSJ1908, RXJ1713, VelaX
-source_name = "VelaX"
+analysis_conf = AnalysisConfig()
 
-irf_path = Path(parpar_dir / "data" / "km3net")
+# Westerlund1, HESSJ1908, RXJ1713, VelaX
+source_name = analysis_conf.get_source()
+
+irf_path = Path(parpar_dir / "data" / "km3net" / "irfs")
 
 years = 10  # exposition time
 
@@ -76,8 +78,10 @@ pos_arca = EarthLocation.from_geodetic(
 )  # ARCA pos
 
 # Set a time grid with hourly binning over one year
-hours = 1
-time_step = hours * 3600  # in seconds hourly
+# hours = 1
+time_step = (
+    analysis_conf.get_value("hours", "km3net_datasets") * 3600
+)  # in seconds hourly
 start = Time("2019-01-01T00:00:00", format="isot").unix
 end = Time("2020-01-01T00:00:00", format="isot").unix
 times = np.linspace(start, end - time_step, int(365 * 24 * 3600 / time_step))
@@ -205,53 +209,6 @@ irfs = dict(aeff=aeff, psf=psf, edisp=edisp)
 bkg_nu = Background2D.read(Path(irf_path / "bkg_nu.fits"))
 bkg_mu = Background2D.read(Path(irf_path / "bkg_mu.fits"))
 
-# Create observations
-# obs_list = [
-#     Observation.create(pointing=pointings[i], livetime=livetime_pointings[i], irfs=irfs)
-#     for i in tqdm(range(n_datasets), "Create obs list")
-# ]
-
-# # Make the MapDatasets
-# empty = MapDataset.create(
-#     geom=geom,
-#     energy_axis_true=energy_axis_true,
-#     migra_axis=migra_axis,
-#     rad_axis=theta_axis,
-#     binsz_irf=1,
-# )
-
-# dataset_maker = MapDatasetMaker(selection=["exposure", "psf", "edisp"])
-
-# datasets = []
-# for i, obs in enumerate(obs_list):
-#     dataset = dataset_maker.run(empty.copy(name="nu{}".format(i + 1)), obs)
-#     datasets.append(dataset)
-
-
-# Create observations and map datasets
-# datasets = []
-
-# for i in tqdm(range(n_datasets), "Create datasets"):
-#     # Create observation
-#     obs = Observation.create(
-#         pointing=pointings[i], livetime=livetime_pointings[i], irfs=irfs
-#     )
-
-#     # Create empty map dataset
-#     empty = MapDataset.create(
-#         geom=geom,
-#         energy_axis_true=energy_axis_true,
-#         migra_axis=migra_axis,
-#         rad_axis=theta_axis,
-#         binsz_irf=1,
-#     )
-
-#     # Make the map dataset
-#     dataset_maker = MapDatasetMaker(selection=["exposure", "psf", "edisp"])
-#     dataset = dataset_maker.run(empty.copy(name="nu{}".format(i + 1)), obs)
-
-#     datasets.append(dataset)
-
 
 # Create observations and map datasets
 datasets = []
@@ -300,53 +257,6 @@ makedirs(bkg_plot_dir, exist_ok=True)
 def save_fig(fig, file_name):
     for form in ["png", "pdf"]:
         fig.savefig(Path(output_path / "plots" / str(file_name + f".{form}")))
-
-
-# Plot zenith angle distribution for all edge coordinates defined above, for each zenith angle bin
-# for i in range(n_datasets):
-#     z1 = zen_bins[1:][bin_mask][i]
-#     z2 = zen_bins[:-1][bin_mask][i]
-
-#     fig, axes = plt.subplots(3, 3, figsize=(10, 10), sharex=True)
-#     for j, pp in enumerate(edge_coord_pixel_pos):
-#         ax = axes[j // 3][j % 3]
-#         zen_vals = map_coord_zeniths[:, pp[0], pp[1]][zen_masks[i]]
-#         ax.hist(zen_vals, bins=np.linspace(60, 180, 61), histtype="step")
-#         ylim = ax.get_ylim()
-#         ax.vlines(zen_bins[7], 0, ylim[1], color="tab:green", ls="--")
-#         ax.vlines(zen_vals.mean(), 0, ylim[1], color="tab:blue", ls="--")
-#         ax.fill_between(
-#             [z1, z2], [0, 0], [ylim[1], ylim[1]], color="k", alpha=0.2, zorder=-4
-#         )
-#         ax.set_ylim(0, ylim[1])
-#         ax.set_title(
-#             "R.A.: ${:.1f}^\circ$, Dec.: ${:.1f}^\circ$".format(
-#                 sky_coord[pp[0], pp[1]].ra.value, sky_coord[pp[0], pp[1]].dec.value
-#             )
-#         )
-#         ax.grid(ls="--")
-#         if j // 3 == 2:
-#             ax.set_xlabel(r"$\theta\,[\mathrm{deg}]$")
-
-#     fig.text(
-#         0.5,
-#         0.99,
-#         r"Zenith angle distribution for $\theta\in [{:.1f},{:.1f}]$".format(z1, z2),
-#         ha="center",
-#         va="top",
-#         fontsize="x-large",
-#         transform=fig.transFigure,
-#     )
-
-#     plt.subplots_adjust(top=0.94)
-
-#     # plt.show()
-#     for form in ["png", "pdf"]:
-#         fig.savefig(
-#             "{}/KM3NeT_zenith_angle_dist_fov_edges_bin_{:02d}.{}".format(
-#                 bkg_plot_dir, i, form
-#             )
-#         )
 
 
 def bkg_2d_eval_patched(self, fov_lon, fov_lat, energy_reco, method="linear", **kwargs):
@@ -473,211 +383,6 @@ for i in tqdm(range(n_datasets), "Background"):
         exposure_edge_pixels_zen_mean[-1].append(exp[0])
 
 
-# Plot neutrino background rate prediction distribution for all edge coordinates defined above,
-# for each zenith angle bin
-# for i in range(n_datasets):
-#     z1 = zen_bins[1:][bin_mask][i]
-#     z2 = zen_bins[:-1][bin_mask][i]
-
-#     fig, axes = plt.subplots(3, 3, figsize=(10, 10))
-#     for j, pp in enumerate(edge_coord_pixel_pos):
-#         ax = axes[j // 3][j % 3]
-#         bkg_vals = nu_background_edge_pixels[j][zen_masks[i]]
-#         ax.hist(
-#             np.log10(bkg_vals),
-#             bins=np.linspace(np.log10(bkg_vals.min()), np.log10(bkg_vals.max()), 51),
-#             histtype="step",
-#         )
-#         ylim = ax.get_ylim()
-#         ax.vlines(np.log10(bkg_vals.mean()), 0, ylim[1], color="tab:blue", ls="--")
-#         ax.vlines(
-#             np.log10(nu_background_edge_pixels_zen_mean[i][j]),
-#             0,
-#             ylim[1],
-#             color="tab:red",
-#             ls="--",
-#         )
-#         ax.set_ylim(0, ylim[1])
-#         ax.set_title(
-#             "R.A.: ${:.1f}^\circ$, Dec.: ${:.1f}^\circ$".format(
-#                 sky_coord[pp[0], pp[1]].ra.value, sky_coord[pp[0], pp[1]].dec.value
-#             )
-#         )
-#         ax.text(
-#             0.95,
-#             0.95,
-#             "${:.3g}\%$".format(
-#                 100
-#                 * (nu_background_edge_pixels_zen_mean[i][j] - bkg_vals.mean())
-#                 / bkg_vals.mean()
-#             ),
-#             ha="right",
-#             va="top",
-#             bbox=dict(ec="k", fc="w", alpha=0.5),
-#             transform=ax.transAxes,
-#         )
-#         ax.grid(ls="--")
-#         if j // 3 == 2:
-#             ax.set_xlabel("$\log_{10}(\mathrm{Rate}\,/\,\mathrm{s}^{-1})$")
-
-#     fig.text(
-#         0.5,
-#         0.99,
-#         r"Atmospheric neutrino background for $\theta\in [{:.1f},{:.1f}]$".format(
-#             z1, z2
-#         ),
-#         ha="center",
-#         va="top",
-#         fontsize="x-large",
-#         transform=fig.transFigure,
-#     )
-
-#     plt.subplots_adjust(top=0.94)
-
-#     # plt.show()
-#     for form in ["png", "pdf"]:
-#         fig.savefig(
-#             "{}/KM3NeT_nu_bkg_rate_dist_fov_edges_bin_{:02d}.{}".format(
-#                 bkg_plot_dir, i, form
-#             )
-#         )
-
-# Plot muon background rate prediction distribution for all edge coordinates defined above,
-# for each zenith angle bin
-# for i in range(n_datasets):
-#     z1 = zen_bins[1:][bin_mask][i]
-#     z2 = zen_bins[:-1][bin_mask][i]
-
-#     fig, axes = plt.subplots(3, 3, figsize=(10, 10))
-#     for j, pp in enumerate(edge_coord_pixel_pos):
-#         ax = axes[j // 3][j % 3]
-#         bkg_vals = mu_background_edge_pixels[j][zen_masks[i]]
-#         if (bkg_vals > 0).sum() > 1:
-#             h = ax.hist(
-#                 np.log10(bkg_vals[bkg_vals > 0]),
-#                 bins=np.linspace(
-#                     np.log10(bkg_vals[bkg_vals > 0].min()), np.log10(bkg_vals.max()), 51
-#                 ),
-#                 histtype="step",
-#             )[0]
-#             ylim = ax.get_ylim()
-#             ax.vlines(np.log10(bkg_vals.mean()), 0, ylim[1], color="tab:blue", ls="--")
-#             if mu_background_edge_pixels_zen_mean[i][j] > 0:
-#                 ax.vlines(
-#                     np.log10(mu_background_edge_pixels_zen_mean[i][j]),
-#                     0,
-#                     ylim[1],
-#                     color="tab:red",
-#                     ls="--",
-#                 )
-#                 ax.text(
-#                     0.95,
-#                     0.95,
-#                     "${:.3g}\%$".format(
-#                         100
-#                         * (mu_background_edge_pixels_zen_mean[i][j] - bkg_vals.mean())
-#                         / bkg_vals.mean()
-#                     ),
-#                     ha="right",
-#                     va="top",
-#                     bbox=dict(ec="k", fc="w", alpha=0.5),
-#                     transform=ax.transAxes,
-#                 )
-#             ax.set_ylim(0, ylim[1])
-#         ax.set_title(
-#             "R.A.: ${:.1f}^\circ$, Dec.: ${:.1f}^\circ$".format(
-#                 sky_coord[pp[0], pp[1]].ra.value, sky_coord[pp[0], pp[1]].dec.value
-#             )
-#         )
-#         ax.grid(ls="--")
-#         if j // 3 == 2:
-#             ax.set_xlabel("$\log_{10}(\mathrm{Rate}\,/\,\mathrm{s}^{-1})$")
-
-#     fig.text(
-#         0.5,
-#         0.99,
-#         r"Atmospheric muon background for $\theta\in [{:.1f},{:.1f}]$".format(z1, z2),
-#         ha="center",
-#         va="top",
-#         fontsize="x-large",
-#         transform=fig.transFigure,
-#     )
-
-#     plt.subplots_adjust(top=0.94)
-
-#     # plt.show()
-#     for form in ["png", "pdf"]:
-#         fig.savefig(
-#             "{}/KM3NeT_mu_bkg_rate_dist_fov_edges_bin_{:02d}.{}".format(
-#                 bkg_plot_dir, i, form
-#             )
-#         )
-
-# Plot exposure distribution for all edge coordinates defined above,
-# for each zenith angle bin
-# for i in range(n_datasets):
-#     z1 = zen_bins[1:][bin_mask][i]
-#     z2 = zen_bins[:-1][bin_mask][i]
-
-#     fig, axes = plt.subplots(3, 3, figsize=(10, 10))
-#     for j, pp in enumerate(edge_coord_pixel_pos):
-#         ax = axes[j // 3][j % 3]
-#         exp = exposure_edge_pixels[j][zen_masks[i]]
-#         ax.hist(
-#             np.log10(exp),
-#             bins=np.linspace(np.log10(exp.min()), np.log10(exp.max()), 51),
-#             histtype="step",
-#         )
-#         ylim = ax.get_ylim()
-#         ax.vlines(np.log10(exp.mean()), 0, ylim[1], color="tab:blue", ls="--")
-#         ax.vlines(
-#             np.log10(exposure_edge_pixels_zen_mean[i][j]),
-#             0,
-#             ylim[1],
-#             color="tab:red",
-#             ls="--",
-#         )
-#         ax.set_ylim(0, ylim[1])
-#         ax.set_title(
-#             "R.A.: ${:.1f}^\circ$, Dec.: ${:.1f}^\circ$".format(
-#                 sky_coord[pp[0], pp[1]].ra.value, sky_coord[pp[0], pp[1]].dec.value
-#             )
-#         )
-#         ax.text(
-#             0.95,
-#             0.95,
-#             "${:.3g}\%$".format(
-#                 100 * (exposure_edge_pixels_zen_mean[i][j] - exp.mean()) / exp.mean()
-#             ),
-#             ha="right",
-#             va="top",
-#             bbox=dict(ec="k", fc="w", alpha=0.5),
-#             transform=ax.transAxes,
-#         )
-#         ax.grid(ls="--")
-#         if j // 3 == 2:
-#             ax.set_xlabel("$\log_{10}(\mathrm{Exposure}\,/\,\mathrm{m}^2\,\mathrm{s})$")
-
-#     fig.text(
-#         0.5,
-#         0.99,
-#         r"Exposure for $\theta\in [{:.1f},{:.1f}]$".format(z1, z2),
-#         ha="center",
-#         va="top",
-#         fontsize="x-large",
-#         transform=fig.transFigure,
-#     )
-
-#     plt.subplots_adjust(top=0.94)
-
-#     # plt.show()
-#     for form in ["png", "pdf"]:
-#         fig.savefig(
-#             "{}/KM3NeT_exposure_dist_fov_edges_bin_{:02d}.{}".format(
-#                 bkg_plot_dir, i, form
-#             )
-#         )
-
 # !!! this takes several hours !!!
 
 nu_background_maps = np.zeros((n_datasets, *geom.data_shape))
@@ -748,22 +453,6 @@ for i in range(n_datasets):
 # Create the atmospheric neutrino background model
 bkg_models = []
 for i in tqdm(range(n_datasets), "atmospheric nu model"):
-    # We already apply the energy dispersion when we create the IRF
-    # file, so the following is obsolete now.
-    #
-    # # Create energy dispersion matrix for each observation because
-    # # the background model is expected in reconstructed energy
-    # edisp_matrix = edisp.to_energy_dispersion(zen_mean[i]*u.deg,
-    #                                           e_true = energy_axis_true.edges,
-    #                                           e_reco = energy_axis.edges)
-    #
-    # # create the model map on the true geometry
-    # bkg_model_map = WcsNDMap(geom_true.copy(), data=nu_background_maps[i])
-    # bkg_model_map.geom.axes[0].name = 'energy_true'
-    #
-    # # apply the energy dispersion
-    # bkg_model_map = bkg_model_map.apply_edisp(edisp_matrix)
-
     # create map
     bkg_model_map = WcsNDMap(geom.copy(), data=nu_background_maps[i])
 
@@ -909,19 +598,6 @@ rs = np.random.RandomState(seed=314)
 for i in range(n_datasets):
     datasets[i].fake(rs)
 
-# fig, axes = plt.subplots(
-#     2, 3, figsize=(10, 6), subplot_kw=dict(projection=geom.to_image().wcs)
-# )
-
-# # norm = colors.Normalize(vmax=0.01)
-# for i, ds_idx in enumerate([0, 3, -1]):
-#     npred_sum[ds_idx].sum_over_axes().plot(ax=axes[0][i], stretch="sqrt")
-#     data = npred_sum[ds_idx].sum_over_axes().data
-#     im = axes[0][i].imshow(data, cmap=cmap, vmax=0.1)
-#     datasets[ds_idx].counts.smooth(0.25 * u.deg).sum_over_axes().plot(ax=axes[1][i])
-#     data = datasets[ds_idx].counts.smooth(0.25 * u.deg).sum_over_axes().data
-#     im = axes[1][i].imshow(data, cmap=cmap, vmax=0.1)
-
 # add up npred and counts of all datasets
 npred_bkg_nu_all = WcsNDMap(geom)
 npred_bkg_mu_all = WcsNDMap(geom)
@@ -940,18 +616,6 @@ src_region = CircleSkyRegion(
     src_pos, (source_pos_dist["Radius"][source_name] + 0.5) * u.deg
 )
 src_reg_mask = geom.to_image().region_mask([src_region])
-
-# # Predicted counts, summed for all datasets
-# fig, ax, cbar = npred_sum_all.sum_over_axes().plot(add_cbar=True, stretch="sqrt")
-# data = npred_sum_all.sum_over_axes().data
-# im = ax.imshow(data, cmap=cmap, vmin=0.0)
-# src_reg_pix = src_region.to_pixel(ax.wcs)
-# src_reg_pix.plot(ax=ax, ls="--")
-
-# # Fake counts, summed for all datasets
-# counts_all.sum_over_axes().smooth(0.25 * u.deg).plot(
-#     add_cbar=True, vmin=0
-# )  # Add vmin=0
 
 
 # For the paper
@@ -973,13 +637,6 @@ cbar.set_label("Counts per pixel")
 
 plt.subplots_adjust(left=0.15, right=0.95, bottom=0.17, top=0.97)
 
-# for form in ["png", "pdf"]:
-#     fig.savefig(
-#         path.join(
-#             results_path,
-#             "plots/map_KM3NeT_counts_summed_PD_{}.{}".format(source_name, form),
-#         )
-#     )
 
 save_fig(fig, f"map_KM3NeT_counts_summed_PD_{source_name}")
 
@@ -1047,12 +704,6 @@ plot_utils.format_log_axis(ax.yaxis)
 
 ax.legend(loc="lower left", ncol=2, columnspacing=1)
 
-# for form in ["png", "pdf"]:
-#     fig.savefig(
-#         path.join(
-#             results_path, "plots/counts_reg_KM3NeT_PD_{}.{}".format(source_name, form)
-#         )
-#     )
 
 save_fig(fig, f"counts_reg_KM3NeT_PD_{source_name}")
 

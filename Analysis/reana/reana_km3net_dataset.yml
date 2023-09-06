@@ -3,13 +3,16 @@ version: 0.9.0
 inputs:
   directories:
     - data/models/
-    - data/km3net/
+    - data/km3net/irfs
     - src/
 
   files:
+    - Analysis/reana/flux_models.py
     - Analysis/reana/create_km3net_dataset.py
+    - Analysis/analysis_config.yml
 
   parameters:
+    flux: flux_models.py
     main: create_km3net_dataset.py
     path: Analysis/reana/
 
@@ -18,10 +21,10 @@ workflow:
   specification:
     steps:
       - name: analysis
-        environment: "gitlab-registry.in2p3.fr/escape2020/virtual-environment/docker-images/datalake-singleuser-combined_ana_km3net_cta:latest"
+        environment: "ghcr.io/vre-hub/vre-singleuser-combiend_ana_km3net_cta:latest"
         kubernetes_memory_limit: "8Gi"
         commands:
-          # - pip install --user nbconvert
+          - cd "${path}" && python "${flux}"
           - cd "${path}" && python "${main}"
           # - mv "${path}/new_pic.png" "${plot}"
 #           - cd reana_analysis && python plot_from_fits.py
