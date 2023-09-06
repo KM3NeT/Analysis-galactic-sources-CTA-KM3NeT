@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import time
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -27,7 +28,6 @@ output_path = Path(parpar_dir / output_folder)
 from src import AnalysisConfig
 import src.plot_utils as plot_utils
 from src.fill_table import *
-import pandas as pd
 
 
 analysis_conf = AnalysisConfig()
@@ -38,7 +38,7 @@ data_path = analysis_conf.get_file("likelihood_analysis")
 
 source_names = ["RXJ1713", "VelaX", "HESSJ1908", "Westerlund1"]
 
-# option for model set in analysis_config.yml
+# option for model sets in analysis_config.yml
 # leptonic = 0.0
 # hadronic = 1.0
 
@@ -242,10 +242,5 @@ def save_fig(fig, file_name):
 
 
 save_fig(fig, f"all_sources_scan_{str(model)}")
-# for form in ["png", "pdf"]:
-#     fig.savefig(
-#         analysisconfig.get_file(
-#             "likelihood_analysis/plots/all_sources_scan_" + str(model) + "." + form
-#         )
-#     )
+
 print(f"--- {round((time.time() - start_time),3)} s ---")
