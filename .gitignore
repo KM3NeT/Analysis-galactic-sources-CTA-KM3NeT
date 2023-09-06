@@ -15,6 +15,5 @@ data/cta/pseudodata/
 data/km3net/plots/
 data/km3net/pseudodata/
 data/likelihood_analysis/plots/
-data/likelihood_analysis/plots
 data/likelihood_analysis/results*
 data/likelihood_analysis/numpy_files/

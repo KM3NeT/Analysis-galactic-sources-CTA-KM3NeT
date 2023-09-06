@@ -104,15 +104,11 @@ zen_bins = np.arccos(cos_zen_bins) * 180 / np.pi
 zen_binc = np.arccos(cos_zen_binc) * 180 / np.pi
 
 # compute visibility time for each zenith angle bin
-# vis_hist = np.histogram(np.cos(zen_angles * np.pi / 180), bins=cos_zen_bins)
-# vis_times = vis_hist[0] / vis_hist[0].sum() * u.yr
-
 vis_hist, _ = np.histogram(np.cos(zen_angles * np.pi / 180), bins=cos_zen_bins)
 vis_times = (vis_hist / vis_hist.sum()) * u.yr
 
 
 # determine which zenith angle bins are going to be used
-# bin_mask = (zen_binc > 80) & (vis_hist[0] > 0)
 bin_mask = (zen_binc > 80) & (vis_hist > 0)
 # how many datasets will be used
 n_datasets = bin_mask.sum()
@@ -121,14 +117,6 @@ n_datasets = bin_mask.sum()
 dataset_idx = np.digitize(zen_angles, bins=zen_bins)
 # for what it was done?!
 dataset_idx -= dataset_idx.min()
-
-# compute masks for each zenith angle bin
-# zen_masks = []
-# for i in range(n_datasets):
-#     z1 = zen_bins[1:][bin_mask][i]
-#     z2 = zen_bins[:-1][bin_mask][i]
-#     zen_masks.append((zen_angles > z1) & (zen_angles < z2))
-
 
 zen_masks = [
     (zen_angles > z1) & (zen_angles < z2)
@@ -146,7 +134,6 @@ zen_mean = [zen_angles[m].mean() for m in zen_masks]
 # Set up geometries
 
 # set the true and reconstructed energy axes
-print("# set the true and reconstructed energy axes")
 energy_axis = MapAxis.from_bounds(
     1e2, 1e6, nbin=16, unit="GeV", name="energy", interp="log"
 )
@@ -250,8 +237,8 @@ edge_coord_pixel_pos = [
 
 
 makedirs(output_path, exist_ok=True)
-bkg_plot_dir = Path(output_path / "plots" / "km3net_bkg" / source_name)
-makedirs(bkg_plot_dir, exist_ok=True)
+# bkg_plot_dir = Path(output_path / "plots" / "km3net_bkg" / source_name)
+# makedirs(bkg_plot_dir, exist_ok=True)
 
 
 def save_fig(fig, file_name):

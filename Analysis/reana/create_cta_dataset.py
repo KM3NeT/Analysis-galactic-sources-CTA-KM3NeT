@@ -25,7 +25,6 @@ from naima.models import ExponentialCutoffPowerLaw
 from regions import CircleSkyRegion
 from os import makedirs
 
-# from os import path
 
 import sys
 from pathlib import Path

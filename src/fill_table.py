@@ -12,7 +12,13 @@ import sys
 import pandas as pd
 import re
 
-from configure_analysis import AnalysisConfig
+current_dir = Path(__file__).resolve().parent
+par_dir = current_dir.parent
+# parpar_dir = par_dir.parent
+sys.path.append(str(par_dir))
+# sys.path.append(str(parpar_dir))
+
+from src import AnalysisConfig
 
 analysisconfig = AnalysisConfig()
 

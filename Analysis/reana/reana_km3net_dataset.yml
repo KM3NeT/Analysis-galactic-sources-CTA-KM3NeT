@@ -21,7 +21,8 @@ workflow:
   specification:
     steps:
       - name: analysis
-        environment: "ghcr.io/vre-hub/vre-singleuser-combiend_ana_km3net_cta:latest"
+        # environment: "ghcr.io/vre-hub/vre-singleuser-combiend_ana_km3net_cta:latest"
+        environment: "ghcr.io/vre-hub/vre-singleuser-combined_ana_km3net_cta:sha-520edf8"
         kubernetes_memory_limit: "8Gi"
         commands:
           - cd "${path}" && python "${flux}"
