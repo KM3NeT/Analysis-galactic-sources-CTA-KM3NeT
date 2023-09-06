@@ -7,10 +7,16 @@ from astropy.constants import c
 from naima.utils import trapz_loglog
 
 import sys
+from pathlib import Path
 
-sys.path.append("../src")
+# from src.configure_analysis import AnalysisConfig
 
-from configure_analysis import AnalysisConfig
+current_dir = Path(__file__).resolve().parent
+par_dir = current_dir.parent
+# parpar_dir = par_dir.parent
+sys.path.append(str(par_dir))
+
+from .configure_analysis import AnalysisConfig
 
 analysisconfig = AnalysisConfig()
 
@@ -19,6 +25,7 @@ from naima.extern.validator import (
     validate_physical_type,
     validate_scalar,
 )
+
 
 from gammapy.modeling.models import (
     NaimaSpectralModel,

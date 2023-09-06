@@ -9,6 +9,7 @@ inputs:
   files:
     - Analysis/reana/flux_models.py
     - Analysis/reana/create_cta_dataset.py
+    - Analysis/analysis_config.yml
 
   parameters:
     flux: flux_models.py
@@ -20,7 +21,9 @@ workflow:
   specification:
     steps:
       - name: analysis
-        environment: "gitlab-registry.in2p3.fr/escape2020/virtual-environment/docker-images/datalake-singleuser-combined_ana_km3net_cta:latest"
+        # environment: "gitlab-registry.in2p3.fr/escape2020/virtual-environment/docker-images/datalake-singleuser-combined_ana_km3net_cta:latest"
+        # environment: "ghcr.io/vre-hub/vre-singleuser-combiend_ana_km3net_cta:latest"
+        environment: "ghcr.io/vre-hub/vre-singleuser-combined_ana_km3net_cta:sha-520edf8"
         kubernetes_memory_limit: "4Gi"
         commands:
           # - mkdir "${plot}"
