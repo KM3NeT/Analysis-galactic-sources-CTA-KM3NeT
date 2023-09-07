@@ -13,6 +13,7 @@
     "description": "This repository contains the prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT/ARCA. It complements the publication \"Prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT\"",
     "applicationCategory": "Astroparticle physics",
     "releaseNotes": "First commit in line with paper publication.",
+    "referencePublication": "https://arxiv.org/abs/2309.03007",
     "developmentStatus": "active",
     "readme": "https://github.com/KM3NeT/Analysis-galactic-sources-CTA-KM3NeT/README.md",
     "softwareVersion": "1.0.0",
@@ -94,15 +95,11 @@
     ],
     "maintainer": [
         {
-            "@type": "Person",
-            "@id": "http://openscience.km3net.de",
-            "givenName": "KM3NeT",
-            "familyName": "Open Science",
+            "@type": "Organization",
+            "@id": "https://km3net.org",
+            "name": "KM3NeT Collaboration",
             "email": "opendata@km3net.de",
-            "affiliation": {
-                "@type": "Organization",
-                "name": "KM3NeT collaboration"
-            }
+            "url": "http://openscience.km3net.de"
         }
     ]
 }
