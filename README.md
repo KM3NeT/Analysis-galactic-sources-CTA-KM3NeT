@@ -1,10 +1,9 @@
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blueviolet.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![DOI](https://zenodo.org/badge/684463999.svg)](https://zenodo.org/badge/latestdoi/684463999)
 
-
 # CTA and KM3NeT Common Source Search
 
-This repository contains the prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT/ARCA. It complements the publication "Prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT" (link: tba), and for in-depth description of the analysis please refer to the paper.
+This repository contains the prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT/ARCA. It complements the publication "Prospects for combined analyses of hadronic emission from γ-ray sources in the Milky Way with CTA and KM3NeT" ([arxiv:2309.03007](https://arxiv.org/abs/2309.03007)), and for in-depth description of the analysis please refer to the paper.
 The aim of this analysis is to simulate how well a combined analysis of CTA and KM3NeT data can differentiate between hadronic and leptonic emission scenarios of galactic gamma-ray sources. The focus is on the comparison of the combined analysis to the separate analysis of the two instruments within [Gammapy](https://docs.gammapy.org/0.17/index.html).
 This content is only compatible with `gammapy v0.17`, later versions are not supported.  
 It should be noted, that `gammapy v0.17` is not compatible with the M1 CPU. The only option to run this analysis with this CPU is to use a docker image.
