@@ -50,9 +50,10 @@ ylabels = [r"Vela X", r"RX J1713.7$-$3946", r"eHWC J1907+063", r"Westerlund 1"]
 
 plt.rcParams.update({"font.family": "serif", "font.size": 7.0})
 
+
 fig_width = 8.8 / 2.54
-ax_width = 0.86
 fig_height = 2.6
+ax_width = 0.86
 ax_height = fig_width * ax_width / 1.5 / fig_height
 
 fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=300)

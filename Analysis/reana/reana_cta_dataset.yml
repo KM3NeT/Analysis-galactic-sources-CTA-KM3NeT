@@ -34,5 +34,6 @@ workflow:
 outputs:
   directories:
     - results
+    - data/cta/pseudodata
   # files:
   #   - results/CTA_VelaX_200h_p4.fits.gz

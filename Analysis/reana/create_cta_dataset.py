@@ -110,18 +110,26 @@ for pointing in tqdm(pointings, "Fill staked dataset"):
     count += 1
 
 
-makedirs(output_path, exist_ok=True)
+# makedirs(output_path, exist_ok=True)
 # The data set is not included in the repo because of its size but can be written to disk using:
 # stacked_dataset.write(
 #     path.join(parentdir, results, "CTA_{}_200h_p4.fits.gz".format(source_name)),
 #     overwrite=True,
 # )
 
-stacked_dataset.write(
-    Path(output_path / f"CTA_{source_name}_{int(livetime.value)}h_p4.fits.gz"),
-    overwrite=True,
-)
+# stacked_dataset.write(
+#     Path(output_path / f"CTA_{source_name}_{int(livetime.value)}h_p4.fits.gz"),
+#     overwrite=True,
+# )
 
+
+if analysis_conf.get_value("write_CTA_pseudodata", "io"):
+    outfilename = analysis_conf.get_file(
+        "cta/pseudodata/CTA_{}_{}{}_p4.fits.gz".format(
+            source_name, int(livetime.value), livetime.unit
+        )
+    )
+    stacked_dataset.write(outfilename, overwrite=True)
 
 # plot
 model_pars_PD = np.loadtxt(

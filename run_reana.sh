@@ -3,8 +3,8 @@
 
 # for CTA dataset production 
 
-# export REANA_WORKON=cta_dataset
-# reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_cta_dataset.yml
+export REANA_WORKON=cta_dataset
+reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_cta_dataset.yml
 
 # for KM3NeT dataset production
 
@@ -19,8 +19,13 @@
 
 # for dTS plots production
 
-export REANA_WORKON=dTS_plots
-reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_plot_dTS_results.yml
+# export REANA_WORKON=dTS_plots
+# reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_plot_dTS_results.yml
+
+# for average limits plot production
+
+# export REANA_WORKON=avg_limits_plot
+# reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_plot_avg_limits.yml
 
 reana-client upload
 reana-client start

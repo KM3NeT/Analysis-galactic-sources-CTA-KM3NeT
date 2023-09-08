@@ -24,8 +24,8 @@ import sys
 start_time = time.time()
 current_dir = Path(__file__).resolve().parent
 par_dir = current_dir.parent
-# parpar_dir = par_dir.parent
 sys.path.append(str(par_dir))
+# parpar_dir = par_dir.parent
 # sys.path.append(str(parpar_dir))
 
 from src import PriorMapDataset, PriorMapDataset2, PriorDatasets, Fit_wp
