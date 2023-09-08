@@ -503,37 +503,65 @@ npred_bkg_mu[-1].sum_over_axes().plot(add_cbar=True)
 
 # Write the datasets to disk
 # (note: datasets are not included in the repo because of their large size)
-ds_dir = f"KM3NeT_{source_name}_{years}y"
-makedirs(Path(output_path / ds_dir), exist_ok=True)
-Datasets(datasets).write(Path(output_path / ds_dir), ds_dir, overwrite=True)
+# ds_dir = f"KM3NeT_{source_name}_{years}y"
+# makedirs(Path(output_path / ds_dir), exist_ok=True)
+# Datasets(datasets).write(Path(output_path / ds_dir), ds_dir, overwrite=True)
 
-makedirs(Path(output_path / "npred_bkg_km3net"), exist_ok=True)
+# makedirs(Path(output_path / ds_dir / "npred_bkg_km3net"), exist_ok=True)
 
-# Also store npred maps for nu and mu background
-for i in range(n_datasets):
-    npred_bkg_nu[i].write(
-        Path(
-            output_path
-            / "npred_bkg_km3net"
-            / "{}_npred_nu_{:02d}.fits".format(source_name, i + 1)
-        ),
+# Write the datasets to disk
+if analysis_conf.get_value("write_KM3NeT_pseudodata", "io"):
+    ext = analysis_conf.get_value(
+        "km3net_pseudodata_extension", "io"
+    )  # folder name extension when using different data sets
+    ds_dir = analysis_conf.get_file("km3net/pseudodata/KM3NeT_" + source_name + ext)
+    makedirs(ds_dir, exist_ok=True)
+    Datasets(datasets).write(
+        str(ds_dir) + "/KM3NeT_" + source_name + ext,
+        str(ds_dir) + "/KM3NeT_" + source_name + ext,
         overwrite=True,
     )
-    npred_bkg_mu[i].write(
-        Path(
-            output_path
-            / "npred_bkg_km3net"
-            / "{}_npred_mu_{:02d}.fits".format(source_name, i + 1)
-        ),
-        overwrite=True,
-    )
+
+if analysis_conf.get_value("write_KM3NeT_pseudodata", "io"):
+    bkg_dir = analysis_conf.get_file(str(ds_dir) + "/npred_bkg_km3net")
+    makedirs(bkg_dir, exist_ok=True)
+    for i in range(n_datasets):
+        nuname = str(bkg_dir) + "/{}_npred_nu_{:02d}.fits".format(source_name, i + 1)
+        muname = str(bkg_dir) + "/{}_npred_mu_{:02d}.fits".format(source_name, i + 1)
+        npred_bkg_nu[i].write(nuname, overwrite=True)
+        npred_bkg_mu[i].write(muname, overwrite=True)
+
+# # Also store npred maps for nu and mu background
+# for i in range(n_datasets):
+#     npred_bkg_nu[i].write(
+#         Path(
+#             output_path
+#             / "npred_bkg_km3net"
+#             / "{}_npred_nu_{:02d}.fits".format(source_name, i + 1)
+#         ),
+#         overwrite=True,
+#     )
+#     npred_bkg_mu[i].write(
+#         Path(
+#             output_path
+#             / "npred_bkg_km3net"
+#             / "{}_npred_mu_{:02d}.fits".format(source_name, i + 1)
+#         ),
+#         overwrite=True,
+#     )
 
 # PLOT
 
 cmap = cm.afmhot
 
 model_pars_PD = np.loadtxt(
-    Path(parpar_dir / "data" / "models" / f"input_model_PD_{source_name}.txt")
+    Path(
+        parpar_dir
+        / "data"
+        / "models"
+        / "modelfits"
+        / f"input_model_PD_{source_name}.txt"
+    )
 )
 
 ECPL_PD = ExponentialCutoffPowerLaw(

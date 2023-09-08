@@ -11,6 +11,7 @@ inputs:
     - Analysis/reana/create_cta_dataset.py
     - Analysis/reana/create_km3net_dataset.py
     - Analysis/reana/flux_models.py
+    - Analysis/analysis_config.yml
 
   parameters:
     flux: flux_models.py
@@ -28,6 +29,7 @@ workflow:
         kubernetes_memory_limit: "10Gi"
         commands:
           # - mkdir "${plot}"
+          - mkdir data/cta/pseudodata data/km3net/pseudodata
           - cd "${path}" && python "${flux}"
           - cd "${path}" && python "${main_cta}"
           - cd "${path}" && python "${main_km3net}"
@@ -39,6 +41,8 @@ workflow:
 outputs:
   directories:
     - results
-    - outcome
+    - data/likelihood_analysis/numpy_files
+    - data/cta/pseudodata
+    - data/km3net/pseudodata
   # files:
   #   - results/CTA_VelaX_200h_p4.fits.gz

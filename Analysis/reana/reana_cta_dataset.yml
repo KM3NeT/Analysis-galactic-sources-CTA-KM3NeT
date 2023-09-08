@@ -26,6 +26,7 @@ workflow:
         kubernetes_memory_limit: "4Gi"
         commands:
           # - mkdir "${plot}"
+          - mkdir data/cta/pseudodata
           - cd "${path}" && python "${flux}"
           - cd "${path}" && python "${main}"
 #           - cd reana_analysis && python plot_from_fits.py

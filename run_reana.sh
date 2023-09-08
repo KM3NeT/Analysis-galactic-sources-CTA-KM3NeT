@@ -3,8 +3,8 @@
 
 # for CTA dataset production 
 
-export REANA_WORKON=cta_dataset
-reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_cta_dataset.yml
+# export REANA_WORKON=cta_dataset
+# reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_cta_dataset.yml
 
 # for KM3NeT dataset production
 
@@ -13,8 +13,8 @@ reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_cta_dataset.yml
 
 # for combined CTA and KM3NeT datasets production
 
-# export REANA_WORKON=comb_dataset
-# reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_comb_dataset.yml
+export REANA_WORKON=comb_dataset
+reana-client create -w $REANA_WORKON -f ./Analysis/reana/reana_comb_analysis.yml
 
 
 # for dTS plots production

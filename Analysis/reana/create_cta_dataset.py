@@ -133,7 +133,13 @@ if analysis_conf.get_value("write_CTA_pseudodata", "io"):
 
 # plot
 model_pars_PD = np.loadtxt(
-    Path(parpar_dir / "data" / "models" / f"input_model_PD_{source_name}.txt")
+    Path(
+        parpar_dir
+        / "data"
+        / "models"
+        / "modelfits"
+        / f"input_model_PD_{source_name}.txt"
+    )
 )
 
 ECPL_PD = ExponentialCutoffPowerLaw(

@@ -38,60 +38,10 @@ source_name = analysis_conf.get_source()
 model = SourceModel(sourcename=source_name)
 source_tuple = model.get_sourcetuple
 
-# source_files = [
-#     (
-#         "FP_J1908_HAWC",
-#         "HESSJ1908",
-#         "eHWC J1907+063",
-#         "HAWC (2020)",
-#         [1e36, 10, 2.2, 500, 1],
-#         [2e33, 10, 3.0, 400, 1],
-#         [1e36, 2.2, 500],
-#         [2e33, 3.0, 400],
-#         [1.0, 300.0],
-#     ),
-#     (
-#         "FP_VelaX",
-#         "VelaX",
-#         "Vela X",
-#         "H.E.S.S. (2012)",
-#         [2e30, 10, -4.0, 20, 1],
-#         [4e30, 10, 1.0, 20, 1],
-#         [2e30, -4.0, 20],
-#         [4e30, 1.0, 20],
-#         [0.1, 100.0],
-#     ),
-#     (
-#         "FP_RXJ1713",
-#         "RXJ1713",
-#         "RX J1713.7$-$3946",
-#         "H.E.S.S. (2018)",
-#         [1e35, 10, 2.0, 100, 1],
-#         [2e32, 10, 2.5, 50, 1],
-#         [1e35, 2.0, 100],
-#         [2e32, 2.5, 50],
-#         [0.1, 100.0],
-#     ),
-#     (
-#         "FP_Wd1",
-#         "Westerlund1",
-#         "Westerlund 1",
-#         "H.E.S.S. (2012)",
-#         [6e35, 10, 2.0, 1e3, 1],
-#         [1e33, 10, 3.0, 500, 1],
-#         [6e35, 2.0, 1e3],
-#         [1e33, 3.0, 500],
-#         [0.1, 100.0],
-#     ),
-# ]
-# FP_df = pd.read_csv(analysisconfig.get_file("models/"+source_tuple[0]+".csv"))
 # path where to store plots
 output_path = Path(parpar_dir / "results" / "plots")
 makedirs(output_path, exist_ok=True)
 
-# loop through all four sources
-# for source in tqdm(source_files, "FIT"):
-# path_FP = f"../data/models/input_flux_points/{source[0]}.csv"
 path_FP = Path(parpar_dir / "data" / "models" / f"{source_tuple[0]}.csv")
 FP_df = pd.read_csv(path_FP)
 
@@ -205,14 +155,27 @@ print("their uncertainties")
 print(np.sqrt(np.diag(cov_ECPL_IC)))
 print(f"chi^2 / ndof = {chi2_IC.to('')}")
 
+
 # save output of fit
 np.savetxt(
-    Path(parpar_dir / "data" / "models" / f"input_model_PD_{source_tuple[1]}.txt"),
+    Path(
+        parpar_dir
+        / "data"
+        / "models"
+        / "modelfits"
+        / f"input_model_PD_{source_tuple[1]}.txt"
+    ),
     gamma_ECPL_PD.parameters.values,
 )
 
 np.savetxt(
-    Path(parpar_dir / "data" / "models" / f"input_model_IC_{source_tuple[1]}.txt"),
+    Path(
+        parpar_dir
+        / "data"
+        / "models"
+        / "modelfits"
+        / f"input_model_IC_{source_tuple[1]}.txt"
+    ),
     gamma_ECPL_IC.parameters.values,
 )
 

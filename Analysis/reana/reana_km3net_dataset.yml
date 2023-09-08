@@ -25,6 +25,7 @@ workflow:
         environment: "ghcr.io/vre-hub/vre-singleuser-combined_ana_km3net_cta:sha-520edf8"
         kubernetes_memory_limit: "8Gi"
         commands:
+          - mkdir data/km3net/pseudodata
           - cd "${path}" && python "${flux}"
           - cd "${path}" && python "${main}"
           # - mv "${path}/new_pic.png" "${plot}"
@@ -34,5 +35,6 @@ workflow:
 outputs:
   directories:
     - results
+    - data/km3net/pseudodata
   #files:
   #  - results/file_name.fits.gz
