@@ -10,7 +10,7 @@ sources: # Sources must be available as models, see first column in /data/models
     # - Westerlund1
     # - RXJ1713
 km3net_datasets:
-    hours: 1 # for complete reproducing of analysis it should be set to 1
+    hours: 24 # for complete reproducing of analysis it should be set to 1
 # option for final dTS results choose only one option
 dts_result:
     # - 0.0 # leptonic
