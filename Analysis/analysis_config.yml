@@ -3,13 +3,18 @@
 # Values from the standard parameter settings can be overwritten here
 
 execute: manual # set to 'automatic' for serial execution of notebooks, 'manual' to use only the first source under 'sources'
+# choose the desired source by uncommenting it
 sources: # Sources must be available as models, see first column in /data/models/sources_catalog.csv
     - VelaX
-    - HESSJ1908
-    - Westerlund1
-    - RXJ1713
+    # - HESSJ1908
+    # - Westerlund1
+    # - RXJ1713
 km3net_datasets:
-    hours: 24 # for complete reproducing of analysis it should be set to 1
+    hours: 1 # for complete reproducing of analysis it should be set to 1
+# option for final dTS results choose only one option
+dts_result:
+    # - 0.0 # leptonic
+    - 1.0 # hadronic
 io:
     datafolder: ../data #can be relative path to this file or absolute path
     km3net_pseudodata_extension: _10y
