@@ -43,11 +43,13 @@ For *Scenario 3* the prior functions of the KM3NeT data set are removed and the 
 
 ### The prior function
 
-In order to force the fit to maintain a certain ration $f$ of the leptonic and hadronic model, a penalty term is added to the total TS value of the data sets. This term looks like this $$ S \cdot \frac{(f - f_0)^2}{\Delta f^2} $$ where S is the prior_scale, $f_0$ is the ratio of the models which should be scanned and $\Delta f = 0.01$ is the uncertainty which the fit can use to optimize the total TS value. Note that for the evaluation of the profile likelihood scan (for obtaining confidence intervals) the contribution of the prior function is removed.
+In order to force the fit to maintain a certain ration $f$ of the leptonic and hadronic model, a penalty term is added to the total TS value of the data sets. This term looks like this 
+$$S \cdot \frac{(f - f_0)^2}{\Delta f^2}$$ 
+where S is the prior_scale, $f_0$ is the ratio of the models which should be scanned and $\Delta f = 0.01$ is the uncertainty which the fit can use to optimize the total TS value. Note that for the evaluation of the profile likelihood scan (for obtaining confidence intervals) the contribution of the prior function is removed.
 
 ### The scan python script
 
-The python script (`src/perform_scan.py`) for analysis can be run locally (not recommended, takes more than 18 hours) or using REANA. It can accept 3 arguments:
+The python script (`src/perform_scan.py`) for analysis can be run locally (not recommended, takes more than 20 hours) or using REANA. It can accept 3 arguments:
 1. The source name (default **VelaX**)
 2. A random seed (default 1)
 3. The input hadronic contribution for the simulation ([0,1], where 0 refers to the leptonic case and 1 to the hadronic case. All scenarios in between can also be tested). (default 0)
@@ -58,13 +60,13 @@ To run this script successfully, it requires to have generated
 - KM3NeT dataset
 - Flux models
 
-Results of one performed scan will be stored in `outcome` folder as `.npy` files.
+Results of one performed scan will be stored in `data/likelihood_analysis/numpy_files` folder as `.npy` files.
 
 ### Calculation of credible intervals
 
-The TS value is defined as $$ \mathrm{TS} = - 2 \ln(\mathcal{L}) $$ 
+The TS value is defined as $$\mathrm{TS} = - 2 \ln(\mathcal{L})$$ 
 so we can use the $\small\Delta\mathrm{TS}$ value to calculate a likelihood ratio: 
-$$ \frac{\mathcal{L_\mathrm{M1}}}{\mathcal{L_\mathrm{M2}}} = \exp[-\small\Delta\mathrm{TS}/2] $$
+$$\frac{\mathcal{L_\mathrm{M1}}}{\mathcal{L_\mathrm{M2}}} = \exp[-\small\Delta\mathrm{TS}/2]$$
 We follow a Bayesian approach and treat this as our posterior probability distribution.
 
 In the notebook _Plot_dTS_results_ the ${\small\Delta}  \mathrm{TS}$ values for each scan are averaged over the realizations and described by a continuous spline function. One can then integrate $\exp[-\small\Delta\mathrm{TS}(f)/2]$ and find the values of $f$ for which 90\% of the area under this curve are included. This yields the 90% credible interval for $f$.
